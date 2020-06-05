@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "Archiveit",
+  "version": "1.1",
+  "description": "Archive important pieces of information automatically.",
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [
+    "<all_urls>",
+    "bookmarks",
+    "history",
+    "tabs"
+  ]
+}
