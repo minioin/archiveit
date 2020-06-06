@@ -1,11 +1,14 @@
 {
-  "name": "archiveit-webext",
+  "name": "archiveit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:firefox": "web-ext run --verbose --source-dir ."
   },
   "author": "",
+  "devDependencies": {
+    "web-ext": "^4.2.0"
+  },
   "license": "ISC"
 }
