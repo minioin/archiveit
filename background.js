@@ -1,18 +1,21 @@
-const ignoreProtocols = [
-    "file://",
-    "tel:",
-    "about:",
-    "http://localhost",
-    "https://localhost",
-    "http://127.0.0.1",
+const blacklistedHostName = [
+    "localhost",
+    "127.0.0.1",
+    "facebook.com",
+]
+const blacklistedProtocol = [
 ]
 
-function isBlacklisted(url) {
-    for(let protocol of ignoreProtocols) {
-        if(url.startsWith(protocol))
-            return true;
+function isValidUrl(url) {
+    try {
+        url = new URL(url)
+        return !blacklistedHostName.includes(url.hostname)
+                && ! blacklistedProtocol.includes(url.protocol)
+    } catch(e) {
+        console.error("Invalid url: ", url)
+        console.error(e)
+        return false;
     }
-    return false;
 }
 
 async function getLastModified(url) {
@@ -23,6 +26,10 @@ async function getLastModified(url) {
         console.error("Couldn't fetch last updated time of", url, e)
         return new Date();
     }
+}
+
+function archive_org(url) {
+  return fetch(`https://web.archive.org/save/${url}`, {method: 'head'})
 }
 
 async function archiveAndUpdate(url) {
@@ -38,9 +45,8 @@ async function archiveAndUpdate(url) {
     }
 
     console.log("Archiving.")
-    let enabledServers = getEnabledServers();
     try {
-        let res = await fetch("https://web.archive.org/save/" + url, {method: 'head'})
+        let res = await archive_org(url)
         if(res.ok && res.status === 200) {
             let object = {}
             object[url] = lastModified
@@ -54,7 +60,7 @@ async function archiveAndUpdate(url) {
 browser.bookmarks.onCreated.addListener(onBookmarked)
 async function onBookmarked(id, bookmark) {
     let {title, url, dateAdded } = bookmark;
-    if(!url || isBlacklisted(url)){
+    if(!url || !isValidUrl(url)){
         return;
     }
     return await archiveAndUpdate(url)

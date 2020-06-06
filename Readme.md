@@ -1,6 +1,8 @@
 # Archiveit
 automatically.
 
+[Install in Firefox](https://addons.mozilla.org/en-US/firefox/addon/archiveit/)
+
 ## Purpose
 We browse the internet and often find pieces of information in the internet. But internet is not a safe place for content and infromation. Often there are many adversaries trying to eradicate information from the internet, most notorious of which is time. This tool intends to automatically archive such information for eternity.
 
